@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>naniwa.garden · a garden of things I'm growing</title>
+<meta name="description" content="ณ 庭 — a quiet garden where I grow languages, words, pictures, and sound.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#F3EFE3;
+    --parchment-deep:#EBE5D4;
+    --moss:#4A5A43;
+    --moss-soft:#5E7053;
+    --sage:#93A684;
+    --sage-pale:#BFCBB2;
+    --clay:#C58A6E;
+    --clay-deep:#B0775B;
+    --water:#A7C4C2;
+    --honey:#E5C079;
+    --shadow:rgba(40,52,38,.12);
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html{scroll-behavior:smooth}
+
+  body{
+    font-family:'Outfit',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--moss);
+    background:var(--parchment);
+    line-height:1.6;
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+  }
+
+  /* ---- ambient light: parchment with morning warmth pooling at the top ---- */
+  .field{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(229,192,121,.22), transparent 55%),
+      radial-gradient(90% 70% at 80% 110%, rgba(167,196,194,.20), transparent 60%),
+      linear-gradient(180deg, var(--parchment) 0%, var(--parchment-deep) 100%);
+  }
+
+  /* ---- dappled light: soft blurred pools drifting slowly ---- */
+  .dapple{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+  .dapple span{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(229,192,121,.28), transparent 70%);
+    filter:blur(8px);
+    animation:drift linear infinite;
+  }
+  .dapple span:nth-child(1){width:220px;height:220px;left:8%;top:18%;animation-duration:34s}
+  .dapple span:nth-child(2){width:160px;height:160px;left:62%;top:30%;animation-duration:42s;animation-delay:-12s;background:radial-gradient(circle, rgba(147,166,132,.24), transparent 70%)}
+  .dapple span:nth-child(3){width:280px;height:280px;left:38%;top:60%;animation-duration:50s;animation-delay:-6s}
+  .dapple span:nth-child(4){width:140px;height:140px;left:80%;top:72%;animation-duration:38s;animation-delay:-20s;background:radial-gradient(circle, rgba(167,196,194,.26), transparent 70%)}
+  @keyframes drift{
+    0%{transform:translate(0,0) scale(1);opacity:.5}
+    50%{transform:translate(34px,-26px) scale(1.12);opacity:.85}
+    100%{transform:translate(0,0) scale(1);opacity:.5}
+  }
+
+  /* ---- swaying canopy framing the top ---- */
+  .canopy{
+    position:absolute;top:0;left:0;right:0;height:240px;z-index:0;
+    pointer-events:none;overflow:hidden;
+  }
+  .leaf{
+    position:absolute;top:-40px;
+    transform-origin:top center;
+    animation:sway ease-in-out infinite alternate;
+  }
+  .leaf svg{display:block}
+  .leaf:nth-child(1){left:-30px;animation-duration:7s}
+  .leaf:nth-child(2){left:14%;animation-duration:8.5s;animation-delay:-2s}
+  .leaf:nth-child(3){right:18%;animation-duration:7.8s;animation-delay:-1s;transform:scaleX(-1)}
+  .leaf:nth-child(4){right:-26px;animation-duration:9s;animation-delay:-3s;transform:scaleX(-1)}
+  @keyframes sway{
+    from{transform:rotate(-2.5deg)}
+    to{transform:rotate(2.5deg)}
+  }
+  .leaf:nth-child(3),.leaf:nth-child(4){animation-name:sway-flip}
+  @keyframes sway-flip{
+    from{transform:scaleX(-1) rotate(-2.5deg)}
+    to{transform:scaleX(-1) rotate(2.5deg)}
+  }
+
+  /* ---- layout shell ---- */
+  .wrap{
+    position:relative;z-index:1;
+    max-width:880px;margin:0 auto;
+    padding:clamp(2rem,6vw,4rem) clamp(1.25rem,5vw,2rem) 3rem;
+  }
+
+  /* ---- hero ---- */
+  .hero{text-align:center;padding-top:clamp(4rem,16vw,7rem)}
+  .mark{
+    font-size:clamp(4.5rem,18vw,8rem);
+    line-height:1;
+    letter-spacing:.08em;
+    color:var(--moss);
+    display:inline-block;
+    filter:drop-shadow(0 6px 14px var(--shadow));
+  }
+  .mark .th{font-family:'Noto Sans Thai',sans-serif;font-weight:500}
+  .mark .jp{font-family:'Noto Sans JP',sans-serif;font-weight:500}
+  .wordmark{
+    margin-top:1.2rem;
+    font-size:clamp(1.5rem,5vw,2.1rem);
+    font-weight:600;
+    letter-spacing:.02em;
+    color:var(--moss);
+  }
+  .wordmark .dot{color:var(--clay)}
+  .tagline{
+    margin-top:.6rem;
+    font-size:clamp(1rem,2.6vw,1.18rem);
+    font-weight:300;
+    color:var(--moss-soft);
+    letter-spacing:.01em;
+  }
+  .tagline-th{
+    margin-top:.35rem;
+    font-family:'Noto Sans Thai',sans-serif;
+    font-size:clamp(.85rem,2.2vw,.95rem);
+    font-weight:400;
+    color:var(--sage);
+    letter-spacing:.01em;
+  }
+
+  /* ---- section eyebrow (a real divider, not decoration: it marks where the beds begin) ---- */
+  .beds-label{
+    display:flex;align-items:center;gap:.9rem;
+    margin:clamp(3.5rem,9vw,5rem) 0 1.8rem;
+    color:var(--sage);
+    font-size:.82rem;font-weight:500;
+    letter-spacing:.24em;text-transform:uppercase;
+  }
+  .beds-label::before,.beds-label::after{
+    content:"";height:1px;flex:1;
+    background:linear-gradient(90deg,transparent,var(--sage-pale),transparent);
+  }
+
+  /* ---- garden beds (cards) ---- */
+  .beds{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.1rem;
+  }
+  .bed{
+    position:relative;
+    background:rgba(255,255,255,.42);
+    border:1px solid rgba(147,166,132,.32);
+    border-radius:20px;
+    padding:1.5rem 1.4rem 1.4rem;
+    text-decoration:none;
+    color:inherit;
+    display:flex;flex-direction:column;gap:.5rem;
+    transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+    backdrop-filter:blur(2px);
+    overflow:hidden;
+  }
+  .bed .sprite{font-size:1.7rem;line-height:1}
+  .bed h3{font-size:1.18rem;font-weight:600;color:var(--moss)}
+  .bed p{font-size:.92rem;font-weight:300;color:var(--moss-soft)}
+  .bed .status{
+    margin-top:.4rem;
+    font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:.4rem;width:fit-content;
+  }
+  .bed .status::before{content:"";width:7px;height:7px;border-radius:50%}
+
+  /* in bloom = live, clickable */
+  .bed.bloom{cursor:pointer}
+  .bed.bloom .status{color:var(--clay-deep)}
+  .bed.bloom .status::before{background:var(--clay);box-shadow:0 0 0 0 rgba(197,138,110,.5);animation:pulse 3s var(--ease) infinite}
+  .bed.bloom::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+    background:linear-gradient(90deg,var(--clay),var(--honey));
+    transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease);
+  }
+  .bed.bloom:hover,.bed.bloom:focus-visible{
+    transform:translateY(-5px);
+    box-shadow:0 16px 30px -12px var(--shadow);
+    border-color:rgba(197,138,110,.45);
+    outline:none;
+  }
+  .bed.bloom:hover::after,.bed.bloom:focus-visible::after{transform:scaleX(1)}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(197,138,110,.45)}
+    70%{box-shadow:0 0 0 7px rgba(197,138,110,0)}
+    100%{box-shadow:0 0 0 0 rgba(197,138,110,0)}
+  }
+
+  /* seedling = coming soon */
+  .bed.seed{background:rgba(147,166,132,.10);border-style:dashed}
+  .bed.seed .sprite{opacity:.7}
+  .bed.seed h3{color:var(--moss-soft)}
+  .bed.seed .status{color:var(--sage)}
+  .bed.seed .status::before{background:var(--sage-pale)}
+
+  /* dormant = built and on view, but the gate isn't open yet */
+  .bed.dormant{cursor:default;opacity:.8}
+  .bed.dormant .sprite{filter:grayscale(.2)}
+  .bed.dormant h3{color:var(--moss-soft)}
+  .bed.dormant .status{color:var(--moss-soft)}
+  .bed.dormant .status::before{background:var(--water)}
+
+  /* ---- the shade: birdbath + dozing kittens ---- */
+  .shade{
+    margin-top:clamp(3.5rem,9vw,5rem);
+    display:flex;flex-direction:column;align-items:center;gap:.4rem;
+    text-align:center;
+  }
+  .scene{position:relative;width:min(420px,90vw);height:170px}
+
+  .birdbath{position:absolute;left:50%;bottom:0;transform:translateX(-50%)}
+  .ripple{transform-origin:center;animation:ripple 5s ease-in-out infinite}
+  @keyframes ripple{
+    0%,100%{transform:scale(.94);opacity:.7}
+    50%{transform:scale(1.04);opacity:1}
+  }
+
+  .visitor{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);opacity:0;animation:visit 16s ease-in-out infinite}
+  @keyframes visit{
+    0%,60%,100%{opacity:0;transform:translateX(-50%) translateY(6px)}
+    68%,90%{opacity:1;transform:translateX(-50%) translateY(0)}
+  }
+
+  .kitten{position:absolute;bottom:6px}
+  .kitten.left{left:2%}
+  .kitten.right{right:2%}
+  .breathe{transform-origin:center bottom;animation:breathe 4.5s ease-in-out infinite}
+  .breathe.slow{animation-duration:5.6s;animation-delay:-1.5s}
+  @keyframes breathe{
+    0%,100%{transform:scaleY(1)}
+    50%{transform:scaleY(1.035)}
+  }
+  .ear{transform-origin:bottom center;animation:twitch 7s ease-in-out infinite}
+  .ear.r{animation-delay:-3.5s}
+  @keyframes twitch{
+    0%,93%,100%{transform:rotate(0)}
+    95%{transform:rotate(-8deg)}
+    97%{transform:rotate(4deg)}
+  }
+  .tail{transform-origin:left center;animation:flick 9s ease-in-out infinite}
+  @keyframes flick{
+    0%,80%,100%{transform:rotate(0)}
+    86%{transform:rotate(-14deg)}
+    92%{transform:rotate(6deg)}
+  }
+  .kitten-names{font-size:.8rem;color:var(--sage);letter-spacing:.06em;margin-top:.2rem}
+
+  /* ---- footer ---- */
+  footer{
+    margin-top:3rem;text-align:center;
+    font-size:.82rem;color:var(--sage);letter-spacing:.04em;
+  }
+  footer .sep{margin:0 .5rem;opacity:.6}
+
+  /* ---- birdsong toggle ---- */
+  .song{
+    position:fixed;right:1rem;bottom:1rem;z-index:5;
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:rgba(255,255,255,.6);
+    border:1px solid rgba(147,166,132,.4);
+    color:var(--moss);
+    font-family:inherit;font-size:.82rem;font-weight:500;
+    padding:.55rem .85rem;border-radius:999px;cursor:pointer;
+    backdrop-filter:blur(6px);
+    transition:transform .3s var(--ease),background .3s var(--ease);
+  }
+  .song:hover{transform:translateY(-2px);background:rgba(255,255,255,.78)}
+  .song:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+  .song .note{width:8px;height:8px;border-radius:50%;background:var(--sage-pale);transition:background .3s}
+  .song.on .note{background:var(--clay);animation:pulse 2.4s var(--ease) infinite}
+
+  @media (max-width:480px){
+    .scene{height:150px}
+    .kitten svg{height:76px;width:auto}
+  }
+
+  /* ---- a quiet garden respects those who'd rather it stay still ---- */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation:none!important;
+      transition-duration:.01ms!important;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="field" aria-hidden="true"></div>
+  <div class="dapple" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+  <div class="canopy" aria-hidden="true">
+    <!-- four leafy sprigs that sway gently from the top edge -->
+    <div class="leaf"><svg width="150" height="170" viewBox="0 0 150 170"><g fill="#7E9170"><path d="M75 0 C70 40 55 70 30 95 C58 88 72 70 75 50 C78 70 92 88 120 95 C95 70 80 40 75 0Z" opacity=".9"/><path d="M75 30 C72 70 60 110 40 150 C70 130 75 100 75 80 C75 100 80 130 110 150 C90 110 78 70 75 30Z" fill="#93A684" opacity=".85"/></g></svg></div>
+    <div class="leaf"><svg width="120" height="150" viewBox="0 0 120 150"><g fill="#8AA07B"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></g></svg></div>
+    <div class="leaf"><svg width="120" height="150" viewBox="0 0 120 150"><g fill="#8AA07B"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></g></svg></div>
+    <div class="leaf"><svg width="150" height="170" viewBox="0 0 150 170"><g fill="#7E9170"><path d="M75 0 C70 40 55 70 30 95 C58 88 72 70 75 50 C78 70 92 88 120 95 C95 70 80 40 75 0Z" opacity=".9"/><path d="M75 30 C72 70 60 110 40 150 C70 130 75 100 75 80 C75 100 80 130 110 150 C90 110 78 70 75 30Z" fill="#93A684" opacity=".85"/></g></svg></div>
+  </div>
+
+  <main class="wrap">
+    <header class="hero">
+      <div class="mark"><span class="th">ณ</span> <span class="jp">庭</span></div>
+      <div class="wordmark">naniwa<span class="dot">.</span>garden</div>
+      <p class="tagline">a garden of things I'm growing</p>
+      <p class="tagline-th">สวนเล็ก ๆ ที่ค่อย ๆ ปลูกของที่รัก</p>
+    </header>
+
+    <div class="beds-label">in the garden</div>
+
+    <section class="beds">
+      <!-- LIVE APPS — confirm the exact repo name/casing, then the href is naniwa.garden/<RepoName> -->
+      <a class="bed bloom" href="/Peng_HSK/">
+        <span class="sprite">🐼</span>
+        <h3>Peng · Learn Mandarin</h3>
+        <p>Mandarin from HSK 1 to 6, with your little friends to keep you company.</p>
+        <span class="status">in bloom</span>
+      </a>
+
+      <div class="bed dormant" aria-disabled="true">
+        <span class="sprite">🌸</span>
+        <h3>Sawasdee · Learn Thai</h3>
+        <p>563 words across nine little patches, with three friendly guides.</p>
+        <span class="status">resting</span>
+      </div>
+
+      <!-- SEEDLINGS — coming soon, not yet linked -->
+      <div class="bed seed">
+        <span class="sprite">🎙️</span>
+        <h3>Podcast</h3>
+        <p>Thinking out loud, when there's something worth saying aloud.</p>
+        <span class="status">planting soon</span>
+      </div>
+
+      <div class="bed seed">
+        <span class="sprite">📔</span>
+        <h3>Diary</h3>
+        <p>Quiet entries, kept for their own sake.</p>
+        <span class="status">planting soon</span>
+      </div>
+
+      <div class="bed seed">
+        <span class="sprite">📷</span>
+        <h3>Photos</h3>
+        <p>Light, caught and kept — a slow shelf of pictures.</p>
+        <span class="status">planting soon</span>
+      </div>
+    </section>
+
+    <section class="shade" aria-label="A quiet corner of the garden">
+      <div class="scene">
+        <!-- a bird that visits the bath now and then -->
+        <svg class="visitor" width="34" height="26" viewBox="0 0 34 26" aria-hidden="true">
+          <g fill="#5E7053"><ellipse cx="17" cy="15" rx="10" ry="7"/><circle cx="25" cy="10" r="4.5"/><path d="M28 9 l6 -2 -5 4Z"/><path d="M7 15 q-7 -2 -3 6 q4 -3 6 -3Z" fill="#7E9170"/></g>
+        </svg>
+
+        <!-- birdbath -->
+        <svg class="birdbath" width="130" height="100" viewBox="0 0 130 100" aria-hidden="true">
+          <ellipse class="ripple" cx="65" cy="26" rx="46" ry="13" fill="#A7C4C2"/>
+          <ellipse cx="65" cy="24" rx="46" ry="13" fill="none" stroke="#BFCBB2" stroke-width="3"/>
+          <path d="M40 30 Q65 44 90 30 L84 44 Q65 54 46 44Z" fill="#BFCBB2"/>
+          <rect x="58" y="50" width="14" height="34" rx="4" fill="#A6B597"/>
+          <ellipse cx="65" cy="90" rx="30" ry="9" fill="#93A684"/>
+        </svg>
+
+        <!-- Shake (left) — brown tabby with a white bib, paws, and tail-tip -->
+        <div class="kitten left" aria-hidden="true">
+          <svg width="98" height="86" viewBox="0 0 100 88">
+            <g class="breathe">
+              <ellipse cx="50" cy="80" rx="42" ry="9" fill="rgba(74,90,67,.12)"/>
+              <path class="tail" d="M82 62 q26 -4 18 -28 q-2 16 -19 19Z" fill="#AB8765"/>
+              <path d="M91 33 q8 1 8 10 q-5 -4 -10 -3Z" fill="#F4F0E5"/>
+              <ellipse cx="50" cy="58" rx="35" ry="21" fill="#AB8765"/>
+              <path d="M46 40 q-3 9 -1 17" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M57 39 q-2 10 0 18" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M68 41 q-1 9 2 16" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M24 55 C20 70 28 80 38 79 C48 78 49 66 44 57 C38 51 29 51 24 55Z" fill="#F4F0E5"/>
+              <ellipse cx="32" cy="79" rx="6" ry="4" fill="#F4F0E5"/>
+              <ellipse cx="46" cy="80" rx="6" ry="4" fill="#F4F0E5"/>
+              <circle cx="24" cy="46" r="17" fill="#AB8765"/>
+              <path class="ear" d="M12 36 l-3 -14 13 8Z" fill="#AB8765"/>
+              <path class="ear r" d="M37 36 l3 -14 -13 8Z" fill="#AB8765"/>
+              <path d="M13 35 l-2 -8 7 4Z" fill="#D9A689"/>
+              <path d="M36 35 l2 -8 -7 4Z" fill="#D9A689"/>
+              <path d="M17 33 q3 -6 4 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
+              <path d="M24 31 q0 -5 0 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
+              <path d="M31 33 q-3 -6 -4 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
+              <path d="M14 47 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M24 48 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M22.5 51 h4 l-2 2.6Z" fill="#A06B52"/>
+              <path d="M16 50 q-8 0 -13 -2 M16 53 q-8 1 -13 1" stroke="#C9BBA6" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Nikke (right) — grey-brown mackerel tabby, no white -->
+        <div class="kitten right" aria-hidden="true">
+          <svg width="98" height="86" viewBox="0 0 100 88">
+            <g class="breathe slow">
+              <ellipse cx="50" cy="80" rx="42" ry="9" fill="rgba(74,90,67,.12)"/>
+              <path class="tail" d="M18 62 q-26 -4 -18 -28 q2 16 19 19Z" fill="#9C958A"/>
+              <path d="M9 30 q-3 6 0 11" stroke="#6E685C" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".5"/>
+              <ellipse cx="50" cy="58" rx="35" ry="21" fill="#9C958A"/>
+              <path d="M54 40 q3 9 1 17" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
+              <path d="M43 39 q2 10 0 18" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
+              <path d="M32 41 q1 9 -2 16" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
+              <circle cx="76" cy="46" r="17" fill="#9C958A"/>
+              <path class="ear" d="M88 36 l3 -14 -13 8Z" fill="#9C958A"/>
+              <path class="ear r" d="M63 36 l-3 -14 13 8Z" fill="#9C958A"/>
+              <path d="M87 35 l2 -8 -7 4Z" fill="#B9A99B"/>
+              <path d="M64 35 l-2 -8 7 4Z" fill="#B9A99B"/>
+              <path d="M83 33 q-3 -6 -4 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M76 31 q0 -5 0 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
+              <path d="M69 33 q3 -6 4 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
+              <ellipse cx="76" cy="50" rx="9" ry="6.5" fill="#B6AFA3"/>
+              <path d="M68 47 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M78 48 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M73.5 51 h4 l-2 2.6Z" fill="#7E857F"/>
+              <path d="M84 50 q8 0 13 -2 M84 53 q8 1 13 1" stroke="#BDB6AB" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <p class="kitten-names">Shake &amp; Nikke, keeping the shade warm</p>
+    </section>
+
+    <footer>
+      naniwa.garden <span class="sep">·</span> ณ 庭 <span class="sep">·</span> grown in Bangkok
+    </footer>
+  </main>
+
+  <button class="song" id="song" aria-pressed="false">
+    <span class="note" aria-hidden="true"></span>
+    <span class="label">birdsong</span>
+  </button>
+
+<script>
+(function(){
+  // Gentle, synthesized birdsong — off by default. No audio files, just soft chirps.
+  var btn = document.getElementById('song');
+  var label = btn.querySelector('.label');
+  var ctx = null, timer = null, on = false;
+
+  function chirp(){
+    if(!ctx) return;
+    var t = ctx.currentTime;
+    var notes = 2 + Math.floor(Math.random()*3);     // 2–4 little notes per chirp
+    var base = 1800 + Math.random()*1400;            // airy, bird-ish pitch
+    for(var i=0;i<notes;i++){
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = 'sine';
+      var start = t + i*0.09;
+      var f = base * (1 + (Math.random()*0.4 - 0.1));
+      o.frequency.setValueAtTime(f, start);
+      o.frequency.exponentialRampToValueAtTime(f*1.18, start+0.05);
+      g.gain.setValueAtTime(0.0001, start);
+      g.gain.exponentialRampToValueAtTime(0.05, start+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, start+0.10);
+      o.connect(g).connect(ctx.destination);
+      o.start(start); o.stop(start+0.14);
+    }
+    // schedule the next chirp at a calm, irregular interval
+    timer = setTimeout(chirp, 2600 + Math.random()*4200);
+  }
+
+  function start(){
+    ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state === 'suspended') ctx.resume();
+    on = true;
+    btn.classList.add('on');
+    btn.setAttribute('aria-pressed','true');
+    label.textContent = 'birdsong on';
+    timer = setTimeout(chirp, 600);
+  }
+  function stop(){
+    on = false;
+    btn.classList.remove('on');
+    btn.setAttribute('aria-pressed','false');
+    label.textContent = 'birdsong';
+    if(timer) clearTimeout(timer);
+    if(ctx && ctx.state === 'running') ctx.suspend();
+  }
+
+  btn.addEventListener('click', function(){ on ? stop() : start(); });
+})();
+</script>
+</body>
+</html>
