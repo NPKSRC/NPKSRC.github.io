@@ -215,6 +215,10 @@
   .bed.dormant .status{color:var(--moss-soft)}
   .bed.dormant .status::before{background:var(--water)}
 
+  /* private / locked bed — alive, but the room asks for a passcode */
+  .bed .lock{position:absolute;top:1rem;right:1.05rem;font-size:1rem;line-height:1;opacity:.6;transition:opacity .4s var(--ease)}
+  .bed.locked:hover .lock,.bed.locked:focus-visible .lock{opacity:1}
+
   /* ---- the shade: birdbath + dozing kittens ---- */
   .shade{
     margin-top:clamp(3.5rem,9vw,5rem);
@@ -376,6 +380,13 @@
         <p>Light, caught and kept — a slow shelf of pictures.</p>
         <span class="status">planting soon</span>
       </div>
+      <a class="bed bloom locked" href="https://myclassroom.naniwa.garden/" target="_blank" rel="noopener noreferrer">
+        <span class="lock" aria-hidden="true">🔒</span>
+        <span class="sprite">🏮</span>
+        <h3>my private classroom</h3>
+        <p>A quiet room where I study Mandarin — my Bobo &amp; Aya classes kept as flashcards and a daily trainer. Just for me, I&#8217;m afraid.</p>
+        <span class="status">by invitation</span>
+      </a>
     </section>
 
     <section class="shade" aria-label="A quiet corner of the garden">
