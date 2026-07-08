@@ -8,7 +8,7 @@
 <meta name="description" content="ณ 庭 — a quiet garden where I grow languages, words, pictures, and sound.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --parchment:#F3EFE3;
@@ -143,88 +143,6 @@
     letter-spacing:.01em;
   }
 
-  /* ---- na + niwa etymology: a quiet, always-on gloss beneath the wordmark ---- */
-  .etym{
-    margin-top:.7rem;
-    font-size:clamp(.72rem,2vw,.8rem);
-    color:var(--sage);
-    letter-spacing:.015em;
-    line-height:1.5;
-  }
-  .etym .th{font-family:'Noto Sans Thai',sans-serif;color:var(--clay-deep)}
-  .etym .jp{font-family:'Noto Sans JP',sans-serif;color:var(--sky)}
-  .etym i{font-style:italic}
-  .etym .sep{opacity:.55;margin:0 .18rem}
-  .etym .result{font-style:italic;color:var(--moss-soft)}
-
-  /* ---- pinned paper notes: little papers left in the garden ---- */
-  .notes{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(258px,1fr));
-    gap:clamp(1.4rem,4vw,2.1rem);
-    margin:clamp(2.4rem,7vw,3.6rem) auto 0;
-    max-width:760px;
-    align-items:start;   /* each note hugs its own content height */
-  }
-  .note{
-    position:relative;
-    background:#FBF7EA;
-    border:1px solid rgba(176,119,91,.16);
-    border-radius:6px;
-    padding:1.5rem 1.5rem 1.25rem;
-    box-shadow:0 12px 26px -16px rgba(40,52,38,.55), 0 2px 4px rgba(40,52,38,.07);
-  }
-  .note.tilt-l{transform:rotate(-1.2deg)}
-  .note.tilt-r{transform:rotate(1.1deg)}
-  /* a strip of washi (natural paper) tape — biodegradable in spirit, Japanese in origin */
-  .note::before{
-    content:"";position:absolute;top:-9px;left:50%;
-    width:94px;height:22px;
-    transform:translateX(-50%) rotate(-2.4deg);
-    background-image:
-      repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 2px, transparent 2px 5px),
-      linear-gradient(180deg,#EAD9B6,#DDC8A1);
-    opacity:.9;
-    border-left:1px dashed rgba(120,94,64,.22);
-    border-right:1px dashed rgba(120,94,64,.22);
-    border-radius:1px;
-  }
-  .note.tilt-r::before{left:52%;transform:translateX(-50%) rotate(2deg)}
-  .note .n-label{
-    font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--sage);margin-bottom:.55rem;
-    display:flex;align-items:center;gap:.45rem;
-  }
-  /* recent-update note: a darker kraft paper with warm sepia text, set apart from the gardener's cream note */
-  .note.update{
-    background:#E8D9B4;
-    border-color:rgba(120,94,64,.26);
-  }
-  .note.update::before{
-    background-image:
-      repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 2px, transparent 2px 5px),
-      linear-gradient(180deg,#D6BF98,#C7AE84);
-  }
-  .note.update .n-label{color:var(--clay-deep)}
-  .note.update .n-date{color:#9A7B4E}
-  .note.update .n-body{color:#5C4A2C}
-  .note .n-date{
-    font-family:'Lora',Georgia,serif;font-style:italic;
-    font-size:.76rem;color:var(--sage);margin-bottom:.5rem;
-  }
-  .note .n-body{
-    font-family:'Lora',Georgia,serif;
-    font-size:.9rem;line-height:1.7;color:var(--moss);font-weight:400;
-  }
-  .note .n-sign{
-    margin-top:.85rem;text-align:right;
-    font-family:'Lora',Georgia,serif;font-style:italic;
-    font-size:.86rem;color:var(--moss-soft);
-  }
-  @media (max-width:480px){
-    .note.tilt-l,.note.tilt-r{transform:none}
-  }
-
   /* ---- section eyebrow (a real divider, not decoration: it marks where the beds begin) ---- */
   .beds-label{
     display:flex;align-items:center;gap:.9rem;
@@ -289,7 +207,7 @@
     100%{box-shadow:0 0 0 0 rgba(197,138,110,0)}
   }
 
-  /* ---- status accent variants (override bloom defaults) ---- */
+  /* ---- status accent variants ---- */
   /* in bloom = fresh green, still gently pulsing */
   .bed.s-bloom .status{color:var(--leaf)}
   .bed.s-bloom .status::before{background:var(--leaf-dot);box-shadow:0 0 0 0 rgba(134,184,94,.5);animation:pulse-leaf 3s var(--ease) infinite}
@@ -300,16 +218,17 @@
     70%{box-shadow:0 0 0 7px rgba(134,184,94,0)}
     100%{box-shadow:0 0 0 0 rgba(134,184,94,0)}
   }
-  /* pruning = calm water-blue, solid dot */
-  .bed.s-prune .status{color:var(--sky)}
-  .bed.s-prune .status::before{background:var(--sky-dot);box-shadow:none;animation:none}
-  .bed.s-prune::after{background:linear-gradient(90deg,var(--sky),var(--water))}
-  .bed.s-prune:hover,.bed.s-prune:focus-visible{border-color:rgba(79,135,152,.45)}
   /* by invitation = soft rose, solid dot */
   .bed.s-invite .status{color:var(--rose)}
   .bed.s-invite .status::before{background:var(--rose-dot);box-shadow:none;animation:none}
   .bed.s-invite::after{background:linear-gradient(90deg,var(--rose),var(--honey))}
   .bed.s-invite:hover,.bed.s-invite:focus-visible{border-color:rgba(190,106,99,.45)}
+
+  /* pruning = a live, clickable bed like the others, with a calm water-blue status */
+  .bed.s-prune .status{color:var(--sky)}
+  .bed.s-prune .status::before{background:var(--sky-dot);box-shadow:none;animation:none}
+  .bed.s-prune::after{background:linear-gradient(90deg,var(--sky),var(--water))}
+  .bed.s-prune:hover,.bed.s-prune:focus-visible{border-color:rgba(79,135,152,.45)}
 
   /* seedling = coming soon */
   .bed.seed{background:rgba(147,166,132,.10);border-style:dashed}
@@ -381,6 +300,23 @@
   }
   footer .sep{margin:0 .5rem;opacity:.6}
 
+  /* ---- birdsong toggle ---- */
+  .song{
+    position:fixed;right:1rem;bottom:1rem;z-index:5;
+    display:inline-flex;align-items:center;gap:.5rem;
+    background:rgba(255,255,255,.6);
+    border:1px solid rgba(147,166,132,.4);
+    color:var(--moss);
+    font-family:inherit;font-size:.82rem;font-weight:500;
+    padding:.55rem .85rem;border-radius:999px;cursor:pointer;
+    backdrop-filter:blur(6px);
+    transition:transform .3s var(--ease),background .3s var(--ease);
+  }
+  .song:hover{transform:translateY(-2px);background:rgba(255,255,255,.78)}
+  .song:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
+  .song .note{width:8px;height:8px;border-radius:50%;background:var(--sage-pale);transition:background .3s}
+  .song.on .note{background:var(--clay);animation:pulse 2.4s var(--ease) infinite}
+
   @media (max-width:480px){
     .scene{height:150px}
     .kitten svg{height:76px;width:auto}
@@ -432,45 +368,7 @@
       <div class="wordmark">naniwa<span class="dot">.</span>garden</div>
       <p class="tagline">a garden of things I'm growing</p>
       <p class="tagline-th">สวนเล็ก ๆ ที่ค่อย ๆ ปลูกของที่รัก</p>
-      <p class="etym">
-        <span class="th">ณ</span> <i>na</i> · in
-        <span class="sep">+</span>
-        <span class="jp">庭</span> <i>niwa</i> · garden
-        <span class="sep">→</span>
-        <span class="result">in the garden</span>
-      </p>
     </header>
-
-    <section class="notes" aria-label="Notes from the gardener">
-      <!-- ════════════ MESSAGE LOG · a note from the gardener ═══════════════
-           History of past greetings, newest on top. Claude maintains this;
-           just ask, and the retired message gets copied here with its date.
-
-           [2026-07-08] Welcome, and thank you for wandering in. This is a
-                        small, slow place where I grow the things I love —
-                        languages, words, a few pictures, a little sound.
-                        Nothing here is in a hurry. Stay as long as you like,
-                        and mind the kittens.  (— the gardener)  [posted]
-           ═══════════════════════════════════════════════════════════════════ -->
-      <article class="note tilt-l">
-        <div class="n-label">a note from the gardener</div>
-        <p class="n-body">Welcome, and thank you for wandering in. This is a small, slow place where I grow the things I love — languages, words, a few pictures, a little sound. Nothing here is in a hurry. Stay as long as you like, and mind the kittens.</p>
-        <div class="n-sign">— the gardener</div>
-      </article>
-
-      <!-- ════════════════ MESSAGE LOG · recent update ═════════════════════
-           History of past updates, newest on top. Claude maintains this;
-           just ask, and the retired message gets copied here with its date.
-
-           [2026-07-08] Sawasdee's back — still in beta, games are rough,
-                        but give it a try!  [posted]
-           ═══════════════════════════════════════════════════════════════════ -->
-      <article class="note update tilt-r">
-        <div class="n-label">recent update</div>
-        <div class="n-date">8 July 2026</div>
-        <p class="n-body">Sawasdee's back — still in beta, games are rough, but give it a try!</p>
-      </article>
-    </section>
 
     <div class="beds-label">in the garden</div>
 
@@ -490,7 +388,7 @@
         <span class="status">in bloom</span>
       </a>
 
-      <a class="bed bloom s-prune" href="/SawasdeeFlashcard/" target="_blank" rel="noopener noreferrer">
+      <a class="bed bloom s-prune" href="/SawasdeeLearnThai/" target="_blank" rel="noopener noreferrer">
         <span class="sprite">🐘</span>
         <h3>Sawasdee · Learn Thai</h3>
         <p>563 words across nine little patches, with three friendly guides.</p>
@@ -611,6 +509,63 @@
       naniwa.garden <span class="sep">·</span> ณ 庭 <span class="sep">·</span> grown in Bangkok
     </footer>
   </main>
+
+  <button class="song" id="song" aria-pressed="false">
+    <span class="note" aria-hidden="true"></span>
+    <span class="label">birdsong</span>
+  </button>
+
+<script>
+(function(){
+  // Gentle, synthesized birdsong — off by default. No audio files, just soft chirps.
+  var btn = document.getElementById('song');
+  var label = btn.querySelector('.label');
+  var ctx = null, timer = null, on = false;
+
+  function chirp(){
+    if(!ctx) return;
+    var t = ctx.currentTime;
+    var notes = 2 + Math.floor(Math.random()*3);     // 2–4 little notes per chirp
+    var base = 1800 + Math.random()*1400;            // airy, bird-ish pitch
+    for(var i=0;i<notes;i++){
+      var o = ctx.createOscillator();
+      var g = ctx.createGain();
+      o.type = 'sine';
+      var start = t + i*0.09;
+      var f = base * (1 + (Math.random()*0.4 - 0.1));
+      o.frequency.setValueAtTime(f, start);
+      o.frequency.exponentialRampToValueAtTime(f*1.18, start+0.05);
+      g.gain.setValueAtTime(0.0001, start);
+      g.gain.exponentialRampToValueAtTime(0.05, start+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, start+0.10);
+      o.connect(g).connect(ctx.destination);
+      o.start(start); o.stop(start+0.14);
+    }
+    // schedule the next chirp at a calm, irregular interval
+    timer = setTimeout(chirp, 2600 + Math.random()*4200);
+  }
+
+  function start(){
+    ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state === 'suspended') ctx.resume();
+    on = true;
+    btn.classList.add('on');
+    btn.setAttribute('aria-pressed','true');
+    label.textContent = 'birdsong on';
+    timer = setTimeout(chirp, 600);
+  }
+  function stop(){
+    on = false;
+    btn.classList.remove('on');
+    btn.setAttribute('aria-pressed','false');
+    label.textContent = 'birdsong';
+    if(timer) clearTimeout(timer);
+    if(ctx && ctx.state === 'running') ctx.suspend();
+  }
+
+  btn.addEventListener('click', function(){ on ? stop() : start(); });
+})();
+</script>
 
 <!-- 🍂 garden gate: drag logic (added) -->
 <script>
