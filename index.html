@@ -8,7 +8,7 @@
 <meta name="description" content="ณ 庭 — a quiet garden where I grow languages, words, pictures, and sound.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --parchment:#F3EFE3;
@@ -143,6 +143,88 @@
     letter-spacing:.01em;
   }
 
+  /* ---- na + niwa etymology: a quiet, always-on gloss beneath the wordmark ---- */
+  .etym{
+    margin-top:.7rem;
+    font-size:clamp(.72rem,2vw,.8rem);
+    color:var(--sage);
+    letter-spacing:.015em;
+    line-height:1.5;
+  }
+  .etym .th{font-family:'Noto Sans Thai',sans-serif;color:var(--clay-deep)}
+  .etym .jp{font-family:'Noto Sans JP',sans-serif;color:var(--sky)}
+  .etym i{font-style:italic}
+  .etym .sep{opacity:.55;margin:0 .18rem}
+  .etym .result{font-style:italic;color:var(--moss-soft)}
+
+  /* ---- pinned paper notes: little papers left in the garden ---- */
+  .notes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(258px,1fr));
+    gap:clamp(1.4rem,4vw,2.1rem);
+    margin:clamp(2.4rem,7vw,3.6rem) auto 0;
+    max-width:760px;
+    align-items:start;   /* each note hugs its own content height */
+  }
+  .note{
+    position:relative;
+    background:#FBF7EA;
+    border:1px solid rgba(176,119,91,.16);
+    border-radius:6px;
+    padding:1.5rem 1.5rem 1.25rem;
+    box-shadow:0 12px 26px -16px rgba(40,52,38,.55), 0 2px 4px rgba(40,52,38,.07);
+  }
+  .note.tilt-l{transform:rotate(-1.2deg)}
+  .note.tilt-r{transform:rotate(1.1deg)}
+  /* a strip of washi (natural paper) tape — biodegradable in spirit, Japanese in origin */
+  .note::before{
+    content:"";position:absolute;top:-9px;left:50%;
+    width:94px;height:22px;
+    transform:translateX(-50%) rotate(-2.4deg);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 2px, transparent 2px 5px),
+      linear-gradient(180deg,#EAD9B6,#DDC8A1);
+    opacity:.9;
+    border-left:1px dashed rgba(120,94,64,.22);
+    border-right:1px dashed rgba(120,94,64,.22);
+    border-radius:1px;
+  }
+  .note.tilt-r::before{left:52%;transform:translateX(-50%) rotate(2deg)}
+  .note .n-label{
+    font-size:.66rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--sage);margin-bottom:.55rem;
+    display:flex;align-items:center;gap:.45rem;
+  }
+  /* recent-update note: a darker kraft paper with warm sepia text, set apart from the gardener's cream note */
+  .note.update{
+    background:#E8D9B4;
+    border-color:rgba(120,94,64,.26);
+  }
+  .note.update::before{
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 2px, transparent 2px 5px),
+      linear-gradient(180deg,#D6BF98,#C7AE84);
+  }
+  .note.update .n-label{color:var(--clay-deep)}
+  .note.update .n-date{color:#9A7B4E}
+  .note.update .n-body{color:#5C4A2C}
+  .note .n-date{
+    font-family:'Lora',Georgia,serif;font-style:italic;
+    font-size:.76rem;color:var(--sage);margin-bottom:.5rem;
+  }
+  .note .n-body{
+    font-family:'Lora',Georgia,serif;
+    font-size:.9rem;line-height:1.7;color:var(--moss);font-weight:400;
+  }
+  .note .n-sign{
+    margin-top:.85rem;text-align:right;
+    font-family:'Lora',Georgia,serif;font-style:italic;
+    font-size:.86rem;color:var(--moss-soft);
+  }
+  @media (max-width:480px){
+    .note.tilt-l,.note.tilt-r{transform:none}
+  }
+
   /* ---- section eyebrow (a real divider, not decoration: it marks where the beds begin) ---- */
   .beds-label{
     display:flex;align-items:center;gap:.9rem;
@@ -207,7 +289,7 @@
     100%{box-shadow:0 0 0 0 rgba(197,138,110,0)}
   }
 
-  /* ---- status accent variants ---- */
+  /* ---- status accent variants (override bloom defaults) ---- */
   /* in bloom = fresh green, still gently pulsing */
   .bed.s-bloom .status{color:var(--leaf)}
   .bed.s-bloom .status::before{background:var(--leaf-dot);box-shadow:0 0 0 0 rgba(134,184,94,.5);animation:pulse-leaf 3s var(--ease) infinite}
@@ -218,17 +300,16 @@
     70%{box-shadow:0 0 0 7px rgba(134,184,94,0)}
     100%{box-shadow:0 0 0 0 rgba(134,184,94,0)}
   }
+  /* pruning = calm water-blue, solid dot */
+  .bed.s-prune .status{color:var(--sky)}
+  .bed.s-prune .status::before{background:var(--sky-dot);box-shadow:none;animation:none}
+  .bed.s-prune::after{background:linear-gradient(90deg,var(--sky),var(--water))}
+  .bed.s-prune:hover,.bed.s-prune:focus-visible{border-color:rgba(79,135,152,.45)}
   /* by invitation = soft rose, solid dot */
   .bed.s-invite .status{color:var(--rose)}
   .bed.s-invite .status::before{background:var(--rose-dot);box-shadow:none;animation:none}
   .bed.s-invite::after{background:linear-gradient(90deg,var(--rose),var(--honey))}
   .bed.s-invite:hover,.bed.s-invite:focus-visible{border-color:rgba(190,106,99,.45)}
-
-  /* pruning = a live, clickable bed like the others, with a calm water-blue status */
-  .bed.s-prune .status{color:var(--sky)}
-  .bed.s-prune .status::before{background:var(--sky-dot);box-shadow:none;animation:none}
-  .bed.s-prune::after{background:linear-gradient(90deg,var(--sky),var(--water))}
-  .bed.s-prune:hover,.bed.s-prune:focus-visible{border-color:rgba(79,135,152,.45)}
 
   /* seedling = coming soon */
   .bed.seed{background:rgba(147,166,132,.10);border-style:dashed}
@@ -300,23 +381,6 @@
   }
   footer .sep{margin:0 .5rem;opacity:.6}
 
-  /* ---- birdsong toggle ---- */
-  .song{
-    position:fixed;right:1rem;bottom:1rem;z-index:5;
-    display:inline-flex;align-items:center;gap:.5rem;
-    background:rgba(255,255,255,.6);
-    border:1px solid rgba(147,166,132,.4);
-    color:var(--moss);
-    font-family:inherit;font-size:.82rem;font-weight:500;
-    padding:.55rem .85rem;border-radius:999px;cursor:pointer;
-    backdrop-filter:blur(6px);
-    transition:transform .3s var(--ease),background .3s var(--ease);
-  }
-  .song:hover{transform:translateY(-2px);background:rgba(255,255,255,.78)}
-  .song:focus-visible{outline:2px solid var(--sage);outline-offset:2px}
-  .song .note{width:8px;height:8px;border-radius:50%;background:var(--sage-pale);transition:background .3s}
-  .song.on .note{background:var(--clay);animation:pulse 2.4s var(--ease) infinite}
-
   @media (max-width:480px){
     .scene{height:150px}
     .kitten svg{height:76px;width:auto}
@@ -330,24 +394,6 @@
     }
   }
 
-  /* ===== 🍂 garden gate — secret leaf gesture (added; delete this block + the two matching ones to revert) ===== */
-  .scene .gleaf{position:absolute;cursor:grab;touch-action:none;z-index:6;line-height:0;
-    filter:drop-shadow(0 2px 2px rgba(40,52,38,.18));transition:filter .2s}
-  .scene .gleaf:active{cursor:grabbing}
-  .scene .gleaf.dragging{z-index:12;filter:drop-shadow(0 7px 8px rgba(40,52,38,.26))}
-  .scene .gleaf.key{animation:gkeysway 5s var(--ease) infinite}
-  @keyframes gkeysway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
-  .scene .gleaf.settle{transition:left .55s var(--ease),top .55s var(--ease),opacity .6s,transform .55s var(--ease)}
-  .ggate{position:absolute;left:50%;top:2px;translate:-50% 0;z-index:14;text-align:center;
-    opacity:0;pointer-events:none;scale:.7;transition:opacity .5s var(--ease),scale .5s var(--ease)}
-  .ggate.show{opacity:1;scale:1;pointer-events:auto}
-  .ggate a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;
-    font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.02em;
-    color:var(--parchment);background:linear-gradient(135deg,var(--moss-soft),var(--moss));
-    padding:8px 15px;border-radius:11px;box-shadow:0 9px 22px -9px rgba(40,52,38,.65)}
-  .ggate a:active{transform:translateY(1px)}
-  .ggate svg{width:15px;height:15px;flex:none}
-  @media (prefers-reduced-motion:reduce){.scene .gleaf.key{animation:none}}
 </style>
 </head>
 <body>
@@ -368,7 +414,45 @@
       <div class="wordmark">naniwa<span class="dot">.</span>garden</div>
       <p class="tagline">a garden of things I'm growing</p>
       <p class="tagline-th">สวนเล็ก ๆ ที่ค่อย ๆ ปลูกของที่รัก</p>
+      <p class="etym">
+        <span class="th">ณ</span> <i>na</i> · in
+        <span class="sep">+</span>
+        <span class="jp">庭</span> <i>niwa</i> · garden
+        <span class="sep">→</span>
+        <span class="result">in the garden</span>
+      </p>
     </header>
+
+    <section class="notes" aria-label="Notes from the gardener">
+      <!-- ════════════ MESSAGE LOG · a note from the gardener ═══════════════
+           History of past greetings, newest on top. Claude maintains this;
+           just ask, and the retired message gets copied here with its date.
+
+           [2026-07-08] Welcome, and thank you for wandering in. This is a
+                        small, slow place where I grow the things I love —
+                        languages, words, a few pictures, a little sound.
+                        Nothing here is in a hurry. Stay as long as you like,
+                        and mind the kittens.  (— the gardener)  [posted]
+           ═══════════════════════════════════════════════════════════════════ -->
+      <article class="note tilt-l">
+        <div class="n-label">a note from the gardener</div>
+        <p class="n-body">Welcome, and thank you for wandering in. This is a small, slow place where I grow the things I love — languages, words, a few pictures, a little sound. Nothing here is in a hurry. Stay as long as you like, and mind the kittens.</p>
+        <div class="n-sign">— the gardener</div>
+      </article>
+
+      <!-- ════════════════ MESSAGE LOG · recent update ═════════════════════
+           History of past updates, newest on top. Claude maintains this;
+           just ask, and the retired message gets copied here with its date.
+
+           [2026-07-08] Sawasdee's back — still in beta, games are rough,
+                        but give it a try!  [posted]
+           ═══════════════════════════════════════════════════════════════════ -->
+      <article class="note update tilt-r">
+        <div class="n-label">recent update</div>
+        <div class="n-date">8 July 2026</div>
+        <p class="n-body">Sawasdee's back — still in beta, games are rough, but give it a try!</p>
+      </article>
+    </section>
 
     <div class="beds-label">in the garden</div>
 
@@ -391,7 +475,7 @@
       <a class="bed bloom s-prune" href="/SawasdeeLearnThai/" target="_blank" rel="noopener noreferrer">
         <span class="sprite">🐘</span>
         <h3>Sawasdee · Learn Thai</h3>
-        <p>563 words across nine little patches, with three friendly guides.</p>
+        <p>599 words in little decks across sixteen chapters, with six friendly buddies.</p>
         <span class="status">pruning</span>
       </a>
 
@@ -491,16 +575,6 @@
             </g>
           </svg>
         </div>
-      <!-- 🍂 garden gate: leaves + reveal (added) -->
-        <div class="gleaf " style="left:22%;top:69%;width:30px;transform:rotate(-20deg)"><svg viewBox="0 0 120 150" width="30" aria-hidden="true"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z" fill="#8AA07B"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></svg></div>
-        <div class="gleaf " style="left:40%;top:82%;width:30px;transform:rotate(16deg)"><svg viewBox="0 0 120 150" width="30" aria-hidden="true"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z" fill="#7E9170"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#93A684" opacity=".8"/></svg></div>
-        <div class="gleaf key" style="left:52%;top:87%;width:30px;transform:rotate(0deg)"><svg viewBox="0 0 120 150" width="30" aria-hidden="true"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z" fill="var(--clay)"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="var(--clay-deep)" opacity=".8"/></svg></div>
-        <div class="gleaf " style="left:65%;top:77%;width:30px;transform:rotate(-26deg)"><svg viewBox="0 0 120 150" width="30" aria-hidden="true"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z" fill="#8AA07B"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></svg></div>
-        <div class="gleaf " style="left:47%;top:64%;width:30px;transform:rotate(10deg)"><svg viewBox="0 0 120 150" width="30" aria-hidden="true"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z" fill="#7E9170"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#93A684" opacity=".8"/></svg></div>
-        <div class="ggate" id="ggate">
-          <a id="ggate-link" href="#" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 13c-4 0-6-3-6-3s4-2 6 1c2-3 6-1 6-1s-2 3-6 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="6" r="2.4" stroke="currentColor" stroke-width="2"/></svg>enter the garden</a>
-        </div>
-      <!-- /🍂 garden gate -->
       </div>
       <p class="kitten-names">Shake &amp; Nikke, keeping the shade warm</p>
     </section>
@@ -510,131 +584,5 @@
     </footer>
   </main>
 
-  <button class="song" id="song" aria-pressed="false">
-    <span class="note" aria-hidden="true"></span>
-    <span class="label">birdsong</span>
-  </button>
-
-<script>
-(function(){
-  // Gentle, synthesized birdsong — off by default. No audio files, just soft chirps.
-  var btn = document.getElementById('song');
-  var label = btn.querySelector('.label');
-  var ctx = null, timer = null, on = false;
-
-  function chirp(){
-    if(!ctx) return;
-    var t = ctx.currentTime;
-    var notes = 2 + Math.floor(Math.random()*3);     // 2–4 little notes per chirp
-    var base = 1800 + Math.random()*1400;            // airy, bird-ish pitch
-    for(var i=0;i<notes;i++){
-      var o = ctx.createOscillator();
-      var g = ctx.createGain();
-      o.type = 'sine';
-      var start = t + i*0.09;
-      var f = base * (1 + (Math.random()*0.4 - 0.1));
-      o.frequency.setValueAtTime(f, start);
-      o.frequency.exponentialRampToValueAtTime(f*1.18, start+0.05);
-      g.gain.setValueAtTime(0.0001, start);
-      g.gain.exponentialRampToValueAtTime(0.05, start+0.012);
-      g.gain.exponentialRampToValueAtTime(0.0001, start+0.10);
-      o.connect(g).connect(ctx.destination);
-      o.start(start); o.stop(start+0.14);
-    }
-    // schedule the next chirp at a calm, irregular interval
-    timer = setTimeout(chirp, 2600 + Math.random()*4200);
-  }
-
-  function start(){
-    ctx = ctx || new (window.AudioContext||window.webkitAudioContext)();
-    if(ctx.state === 'suspended') ctx.resume();
-    on = true;
-    btn.classList.add('on');
-    btn.setAttribute('aria-pressed','true');
-    label.textContent = 'birdsong on';
-    timer = setTimeout(chirp, 600);
-  }
-  function stop(){
-    on = false;
-    btn.classList.remove('on');
-    btn.setAttribute('aria-pressed','false');
-    label.textContent = 'birdsong';
-    if(timer) clearTimeout(timer);
-    if(ctx && ctx.state === 'running') ctx.suspend();
-  }
-
-  btn.addEventListener('click', function(){ on ? stop() : start(); });
-})();
-</script>
-
-<!-- 🍂 garden gate: drag logic (added) -->
-<script>
-(function(){
-  /* === edit this one line to your renamed private diary file === */
-  var DIARY_FILE = "shade.html";
-  var HINT_SWAY  = true;   /* gentle sway on the key leaf so YOU can find it; set false to hide */
-
-  var scene = document.querySelector('.scene');
-  if(!scene) return;
-  var bath  = scene.querySelector('.birdbath');
-  var gate  = document.getElementById('ggate');
-  var link  = document.getElementById('ggate-link');
-  var key   = scene.querySelector('.gleaf.key');
-  if(!HINT_SWAY && key) key.classList.remove('key');
-
-  function targetRect(){            /* the birdbath water: 50% across, ~26% down */
-    var r = bath.getBoundingClientRect();
-    var cx = r.left + r.width*0.5, cy = r.top + r.height*0.26;
-    var w = r.width*0.5, h = r.height*0.30;
-    return {left:cx-w/2, right:cx+w/2, top:cy-h/2, bottom:cy+h/2};
-  }
-  function overlap(a,b){ return !(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom); }
-
-  function reveal(leaf){
-    var sr = scene.getBoundingClientRect(), tr = targetRect();
-    leaf.classList.add('settle'); leaf.classList.remove('key');
-    leaf.style.left = ((tr.left+tr.right)/2 - sr.left) + 'px';
-    leaf.style.top  = ((tr.top+tr.bottom)/2 - sr.top) + 'px';
-    leaf.style.transform = 'translate(-50%,-50%) rotate(18deg) scale(.62)';
-    setTimeout(function(){ leaf.style.opacity = '0'; }, 360);
-    var rip = scene.querySelector('.birdbath .ripple');
-    if(rip){ rip.style.transition='transform .6s ease-out'; rip.style.transformOrigin='center';
-             rip.style.transform='scale(1.5)'; setTimeout(function(){rip.style.transform='';},650); }
-    link.setAttribute('href', DIARY_FILE);
-    setTimeout(function(){ gate.classList.add('show'); }, 600);
-    try{ sessionStorage.setItem('niwa_gate','1'); }catch(e){}
-  }
-
-  function drag(el){
-    var on=false, sx, sy, bx, by;
-    el.addEventListener('pointerdown', function(e){
-      on=true; el.setPointerCapture(e.pointerId);
-      el.classList.add('dragging'); el.classList.remove('key');
-      var r=el.getBoundingClientRect(), s=scene.getBoundingClientRect();
-      bx=r.left-s.left; by=r.top-s.top; sx=e.clientX; sy=e.clientY;
-      el.style.left=bx+'px'; el.style.top=by+'px'; el.style.transform='none';
-      e.preventDefault();
-    });
-    el.addEventListener('pointermove', function(e){
-      if(!on) return;
-      el.style.left=(bx+e.clientX-sx)+'px'; el.style.top=(by+e.clientY-sy)+'px';
-    });
-    function end(){
-      if(!on) return; on=false; el.classList.remove('dragging');
-      if(overlap(el.getBoundingClientRect(), targetRect())){
-        if(el===key){ reveal(el); return; }
-        el.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(0)'}],{duration:280});
-      }
-    }
-    el.addEventListener('pointerup', end);
-    el.addEventListener('pointercancel', end);
-  }
-  scene.querySelectorAll('.gleaf').forEach(drag);
-
-  /* if the path was already found this visit, keep it open */
-  try{ if(sessionStorage.getItem('niwa_gate')==='1'){ link.setAttribute('href',DIARY_FILE); gate.classList.add('show'); } }catch(e){}
-})();
-</script>
-<!-- /🍂 garden gate -->
 </body>
 </html>
