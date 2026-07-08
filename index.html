@@ -75,30 +75,36 @@
     100%{transform:translate(0,0) scale(1);opacity:.5}
   }
 
-  /* ---- swaying canopy framing the top ---- */
+  /* ---- swaying canopy framing the top: many single leaves at varied angles ---- */
   .canopy{
-    position:absolute;top:0;left:0;right:0;height:240px;z-index:0;
+    position:absolute;top:0;left:0;right:0;height:260px;z-index:0;
     pointer-events:none;overflow:hidden;
   }
   .leaf{
-    position:absolute;top:-40px;
+    position:absolute;top:-24px;
     transform-origin:top center;
     animation:sway ease-in-out infinite alternate;
   }
-  .leaf svg{display:block}
-  .leaf:nth-child(1){left:-30px;animation-duration:7s}
-  .leaf:nth-child(2){left:14%;animation-duration:8.5s;animation-delay:-2s}
-  .leaf:nth-child(3){right:18%;animation-duration:7.8s;animation-delay:-1s;transform:scaleX(-1)}
-  .leaf:nth-child(4){right:-26px;animation-duration:9s;animation-delay:-3s;transform:scaleX(-1)}
+  .leaf svg{display:block;transform:rotate(var(--rot,0deg))}
+  .leaf .blade{fill:var(--blade,#7E9170)}
+  .leaf .vein{stroke:var(--vein,#3E5E4A);fill:none;stroke-linecap:round}
   @keyframes sway{
-    from{transform:rotate(-2.5deg)}
-    to{transform:rotate(2.5deg)}
+    from{transform:rotate(-3deg)}
+    to{transform:rotate(3deg)}
   }
-  .leaf:nth-child(3),.leaf:nth-child(4){animation-name:sway-flip}
-  @keyframes sway-flip{
-    from{transform:scaleX(-1) rotate(-2.5deg)}
-    to{transform:scaleX(-1) rotate(2.5deg)}
+
+  /* ---- a pile of fallen leaves gathered in the bottom corners ---- */
+  .leafpile{
+    position:fixed;left:0;right:0;bottom:0;height:150px;z-index:40;
+    pointer-events:none;overflow:visible;
   }
+  .pleaf{position:absolute;pointer-events:auto;cursor:grab;touch-action:none;
+    filter:drop-shadow(0 2px 2px rgba(40,52,38,.10));transition:filter .2s}
+  .pleaf:active{cursor:grabbing}
+  .pleaf.lift{filter:drop-shadow(0 8px 9px rgba(40,52,38,.26))}
+  .pleaf svg{display:block;transform:rotate(var(--rot,90deg))}
+  .pleaf .blade{fill:var(--blade,#7E9170)}
+  .pleaf .vein{stroke:var(--vein,#3E5E4A);fill:none;stroke-linecap:round}
 
   /* ---- layout shell ---- */
   .wrap{
@@ -367,6 +373,25 @@
     50%{transform:scale(1.04);opacity:1}
   }
 
+  /* ===== 🍂 garden gate — secret leaf gesture (drag the clay leaf into the birdbath to reveal the hidden path) ===== */
+  .scene .gleaf{position:absolute;cursor:grab;touch-action:none;z-index:6;line-height:0;
+    filter:drop-shadow(0 2px 2px rgba(40,52,38,.18));transition:filter .2s}
+  .scene .gleaf:active{cursor:grabbing}
+  .scene .gleaf.dragging{z-index:12;filter:drop-shadow(0 7px 8px rgba(40,52,38,.26))}
+  .scene .gleaf.key{animation:gkeysway 5s var(--ease) infinite}
+  @keyframes gkeysway{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(6deg)}}
+  .scene .gleaf.settle{transition:left .55s var(--ease),top .55s var(--ease),opacity .6s,transform .55s var(--ease)}
+  .ggate{position:absolute;left:50%;top:2px;translate:-50% 0;z-index:14;text-align:center;
+    opacity:0;pointer-events:none;scale:.7;transition:opacity .5s var(--ease),scale .5s var(--ease)}
+  .ggate.show{opacity:1;scale:1;pointer-events:auto}
+  .ggate a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+    font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.02em;
+    color:var(--parchment);background:linear-gradient(135deg,var(--moss-soft),var(--moss));
+    padding:8px 15px;border-radius:11px;box-shadow:0 9px 22px -9px rgba(40,52,38,.65)}
+  .ggate a:active{transform:translateY(1px)}
+  .ggate svg{width:15px;height:15px;flex:none}
+  @media (prefers-reduced-motion:reduce){.scene .gleaf.key{animation:none}}
+
   .visitor{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);opacity:0;animation:visit 16s ease-in-out infinite}
   @keyframes visit{
     0%,60%,100%{opacity:0;transform:translateX(-50%) translateY(6px)}
@@ -531,11 +556,32 @@
   <div class="dapple" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
   <div class="canopy" aria-hidden="true">
-    <!-- four leafy sprigs that sway gently from the top edge -->
-    <div class="leaf"><svg width="150" height="170" viewBox="0 0 150 170"><g fill="#7E9170"><path d="M75 0 C70 40 55 70 30 95 C58 88 72 70 75 50 C78 70 92 88 120 95 C95 70 80 40 75 0Z" opacity=".9"/><path d="M75 30 C72 70 60 110 40 150 C70 130 75 100 75 80 C75 100 80 130 110 150 C90 110 78 70 75 30Z" fill="#93A684" opacity=".85"/></g></svg></div>
-    <div class="leaf"><svg width="120" height="150" viewBox="0 0 120 150"><g fill="#8AA07B"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></g></svg></div>
-    <div class="leaf"><svg width="120" height="150" viewBox="0 0 120 150"><g fill="#8AA07B"><path d="M60 0 C56 36 44 64 24 86 C48 80 58 64 60 46 C62 64 72 80 96 86 C76 64 64 36 60 0Z"/><path d="M60 26 C58 62 48 98 32 132 C56 114 60 88 60 70 C60 88 64 114 88 132 C72 98 62 62 60 26Z" fill="#A0B391" opacity=".8"/></g></svg></div>
-    <div class="leaf"><svg width="150" height="170" viewBox="0 0 150 170"><g fill="#7E9170"><path d="M75 0 C70 40 55 70 30 95 C58 88 72 70 75 50 C78 70 92 88 120 95 C95 70 80 40 75 0Z" opacity=".9"/><path d="M75 30 C72 70 60 110 40 150 C70 130 75 100 75 80 C75 100 80 130 110 150 C90 110 78 70 75 30Z" fill="#93A684" opacity=".85"/></g></svg></div>
+    <!-- many single leaves, each turned a different way, swaying from the top edge -->
+    <span class="leaf" style="left:-1%;top:-18px;--rot:-38deg;--blade:#7E9170;--vein:#3E5E4A;animation-duration:7s"><svg width="44" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:6%;top:6px;--rot:210deg;--blade:#8AA07B;--vein:#3E5E4A;animation-duration:8.2s;animation-delay:-2s"><svg width="34" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:12%;top:-22px;--rot:-12deg;--blade:#6E9B57;--vein:#2F5A46;animation-duration:7.5s;animation-delay:-1s"><svg width="54" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:19%;top:14px;--rot:150deg;--blade:#93A684;--vein:#46614C;animation-duration:9s;animation-delay:-3s"><svg width="30" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:25%;top:-14px;--rot:24deg;--blade:#7E9170;--vein:#3E5E4A;animation-duration:8s;animation-delay:-4s"><svg width="40" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:32%;top:2px;--rot:186deg;--blade:#8AA07B;--vein:#3E5E4A;animation-duration:7.2s;animation-delay:-1.5s"><svg width="48" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:39%;top:-20px;--rot:-52deg;--blade:#6E9B57;--vein:#2F5A46;animation-duration:8.6s;animation-delay:-2.5s"><svg width="34" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:46%;top:10px;--rot:130deg;--blade:#93A684;--vein:#46614C;animation-duration:7.8s;animation-delay:-0.5s"><svg width="44" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:53%;top:-16px;--rot:8deg;--blade:#7E9170;--vein:#3E5E4A;animation-duration:9.2s;animation-delay:-3.5s"><svg width="38" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:60%;top:0px;--rot:200deg;--blade:#6E9B57;--vein:#2F5A46;animation-duration:7.4s;animation-delay:-1s"><svg width="52" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:67%;top:-22px;--rot:-30deg;--blade:#8AA07B;--vein:#3E5E4A;animation-duration:8.4s;animation-delay:-2s"><svg width="32" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:74%;top:12px;--rot:160deg;--blade:#93A684;--vein:#46614C;animation-duration:7.6s;animation-delay:-4s"><svg width="46" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:81%;top:-12px;--rot:40deg;--blade:#7E9170;--vein:#3E5E4A;animation-duration:8.8s;animation-delay:-1.5s"><svg width="36" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:88%;top:4px;--rot:196deg;--blade:#6E9B57;--vein:#2F5A46;animation-duration:7.3s;animation-delay:-2.8s"><svg width="50" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="leaf" style="left:94%;top:-20px;--rot:-20deg;--blade:#8AA07B;--vein:#3E5E4A;animation-duration:9s;animation-delay:-0.8s"><svg width="34" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+  </div>
+
+  <div class="leafpile" aria-hidden="true">
+    <!-- fallback pile for no-JS; the script scatters many more each visit -->
+    <span class="pleaf" style="left:4%;bottom:0;--rot:84deg;--blade:#7E9170;--vein:#3E5E4A"><svg width="40" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="pleaf" style="left:12%;bottom:14px;--rot:112deg;--blade:#C58A6E;--vein:#8a5a44"><svg width="34" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="pleaf" style="left:20%;bottom:2px;--rot:64deg;--blade:#6E9B57;--vein:#2F5A46"><svg width="44" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="pleaf" style="right:5%;bottom:2px;--rot:96deg;--blade:#8AA07B;--vein:#3E5E4A"><svg width="40" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="pleaf" style="right:13%;bottom:16px;--rot:120deg;--blade:#E5C079;--vein:#a98636"><svg width="32" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
+    <span class="pleaf" style="right:21%;bottom:0;--rot:76deg;--blade:#93A684;--vein:#46614C"><svg width="46" viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg></span>
   </div>
 
   <main class="wrap">
@@ -651,61 +697,70 @@
 
         <!-- Shake (left) — brown tabby with a white bib, paws, and tail-tip -->
         <div class="kitten left" aria-hidden="true">
-          <svg width="98" height="86" viewBox="0 0 100 88">
+          <svg width="104" height="86" viewBox="0 0 120 100">
             <g class="breathe">
-              <ellipse cx="50" cy="80" rx="42" ry="9" fill="rgba(74,90,67,.12)"/>
-              <path class="tail" d="M82 62 q26 -4 18 -28 q-2 16 -19 19Z" fill="#AB8765"/>
-              <path d="M91 33 q8 1 8 10 q-5 -4 -10 -3Z" fill="#F4F0E5"/>
-              <ellipse cx="50" cy="58" rx="35" ry="21" fill="#AB8765"/>
-              <path d="M46 40 q-3 9 -1 17" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
-              <path d="M57 39 q-2 10 0 18" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
-              <path d="M68 41 q-1 9 2 16" stroke="#7E5E40" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
-              <path d="M24 55 C20 70 28 80 38 79 C48 78 49 66 44 57 C38 51 29 51 24 55Z" fill="#F4F0E5"/>
-              <ellipse cx="32" cy="79" rx="6" ry="4" fill="#F4F0E5"/>
-              <ellipse cx="46" cy="80" rx="6" ry="4" fill="#F4F0E5"/>
-              <circle cx="24" cy="46" r="17" fill="#AB8765"/>
-              <path class="ear" d="M12 36 l-3 -14 13 8Z" fill="#AB8765"/>
-              <path class="ear r" d="M37 36 l3 -14 -13 8Z" fill="#AB8765"/>
-              <path d="M13 35 l-2 -8 7 4Z" fill="#D9A689"/>
-              <path d="M36 35 l2 -8 -7 4Z" fill="#D9A689"/>
-              <path d="M17 33 q3 -6 4 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
-              <path d="M24 31 q0 -5 0 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
-              <path d="M31 33 q-3 -6 -4 -9" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".6"/>
-              <path d="M14 47 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-              <path d="M24 48 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-              <path d="M22.5 51 h4 l-2 2.6Z" fill="#A06B52"/>
-              <path d="M16 50 q-8 0 -13 -2 M16 53 q-8 1 -13 1" stroke="#C9BBA6" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
+              <ellipse cx="58" cy="93" rx="46" ry="7" fill="rgba(74,90,67,.12)"/>
+              <path class="tail" d="M92 66 C116 60 118 88 96 88 C108 84 108 72 92 74 Z" fill="#AB8765"/>
+              <path d="M104 62 C112 61 117 67 114 74 C112 68 108 65 103 66 Z" fill="#F4F0E5"/>
+              <path d="M14 90 C8 58 26 40 52 40 C82 40 104 48 104 72 C104 84 102 90 98 90 Z" fill="#AB8765"/>
+              <path d="M72 47 q-3 11 0 21 M83 47 q-2 12 1 21 M93 51 q-1 10 2 17" stroke="#7E5E40" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".5"/>
+              <path d="M22 63 C24 80 42 82 47 70 C45 61 34 59 28 60 Z" fill="#F4F0E5"/>
+              <ellipse cx="30" cy="88" rx="8.5" ry="4.6" fill="#F4F0E5"/>
+              <ellipse cx="48" cy="89" rx="8.5" ry="4.6" fill="#F4F0E5"/>
+              <path d="M30 84.5 v6 M48 85 v6" stroke="#00000015" stroke-width="1"/>
+              <circle cx="32" cy="55" r="21" fill="#AB8765"/>
+              <path class="ear" d="M15 45 L8 21 L31 39 Z" fill="#AB8765"/>
+              <path class="ear r" d="M49 45 L56 21 L33 39 Z" fill="#AB8765"/>
+              <path d="M17 43 L13 28 L27 39 Z" fill="#D9A689"/>
+              <path d="M47 43 L51 28 L37 39 Z" fill="#D9A689"/>
+              <path d="M25 39 q1 -8 2 -12 M32 38 v-12 M39 39 q-1 -8 -2 -12" stroke="#7E5E40" stroke-width="2" fill="none" stroke-linecap="round" opacity=".5"/>
+              <path d="M20 60 Q32 82 44 68 Q42 57 32 56 Q24 56 20 60 Z" fill="#F4F0E5"/>
+              <path d="M17 56 q5 4.5 10 0 M35 56 q5 4.5 10 0" stroke="#4A5A43" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+              <path d="M28 62 h7 l-3.5 3.4 Z" fill="#A06B52"/>
+              <path d="M31.5 65 q0 3 -4 3.6 q-2.5 .3 -3.5 -1.8 M31.5 65 q0 3 4 3.6 q2.5 .3 3.5 -1.8" stroke="#6b5340" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".75"/>
+              <path d="M25 63 q-13 -2 -20 -5 M25 66 q-13 0 -20 -1 M25 69 q-12 3 -18 5" stroke="#C9BBA6" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
             </g>
           </svg>
         </div>
 
         <!-- Nikke (right) — grey-brown mackerel tabby, no white -->
         <div class="kitten right" aria-hidden="true">
-          <svg width="98" height="86" viewBox="0 0 100 88">
+          <svg width="104" height="86" viewBox="0 0 120 100">
             <g class="breathe slow">
-              <ellipse cx="50" cy="80" rx="42" ry="9" fill="rgba(74,90,67,.12)"/>
-              <path class="tail" d="M18 62 q-26 -4 -18 -28 q2 16 19 19Z" fill="#9C958A"/>
-              <path d="M9 30 q-3 6 0 11" stroke="#6E685C" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".5"/>
-              <ellipse cx="50" cy="58" rx="35" ry="21" fill="#9C958A"/>
-              <path d="M54 40 q3 9 1 17" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
-              <path d="M43 39 q2 10 0 18" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
-              <path d="M32 41 q1 9 -2 16" stroke="#6E685C" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
-              <circle cx="76" cy="46" r="17" fill="#9C958A"/>
-              <path class="ear" d="M88 36 l3 -14 -13 8Z" fill="#9C958A"/>
-              <path class="ear r" d="M63 36 l-3 -14 13 8Z" fill="#9C958A"/>
-              <path d="M87 35 l2 -8 -7 4Z" fill="#B9A99B"/>
-              <path d="M64 35 l-2 -8 7 4Z" fill="#B9A99B"/>
-              <path d="M83 33 q-3 -6 -4 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
-              <path d="M76 31 q0 -5 0 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
-              <path d="M69 33 q3 -6 4 -9" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".55"/>
-              <ellipse cx="76" cy="50" rx="9" ry="6.5" fill="#B6AFA3"/>
-              <path d="M68 47 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-              <path d="M78 48 q4 3 8 0" stroke="#4A5A43" stroke-width="1.7" fill="none" stroke-linecap="round"/>
-              <path d="M73.5 51 h4 l-2 2.6Z" fill="#7E857F"/>
-              <path d="M84 50 q8 0 13 -2 M84 53 q8 1 13 1" stroke="#BDB6AB" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
+              <g transform="translate(120,0) scale(-1,1)">
+                <ellipse cx="58" cy="93" rx="46" ry="7" fill="rgba(74,90,67,.12)"/>
+                <path class="tail" d="M92 66 C116 60 118 88 96 88 C108 84 108 72 92 74 Z" fill="#9C958A"/>
+                <path d="M14 90 C8 58 26 40 52 40 C82 40 104 48 104 72 C104 84 102 90 98 90 Z" fill="#9C958A"/>
+                <path d="M72 47 q-3 11 0 21 M83 47 q-2 12 1 21 M93 51 q-1 10 2 17" stroke="#6E685C" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".5"/>
+                <ellipse cx="30" cy="88" rx="8.5" ry="4.6" fill="#ABA498"/>
+                <ellipse cx="48" cy="89" rx="8.5" ry="4.6" fill="#ABA498"/>
+                <path d="M30 84.5 v6 M48 85 v6" stroke="#00000018" stroke-width="1"/>
+                <circle cx="32" cy="55" r="21" fill="#9C958A"/>
+                <path class="ear" d="M15 45 L8 21 L31 39 Z" fill="#9C958A"/>
+                <path class="ear r" d="M49 45 L56 21 L33 39 Z" fill="#9C958A"/>
+                <path d="M17 43 L13 28 L27 39 Z" fill="#B9A99B"/>
+                <path d="M47 43 L51 28 L37 39 Z" fill="#B9A99B"/>
+                <path d="M25 39 q1 -8 2 -12 M32 38 v-12 M39 39 q-1 -8 -2 -12" stroke="#6E685C" stroke-width="2" fill="none" stroke-linecap="round" opacity=".5"/>
+                <path d="M20 60 Q32 82 44 68 Q42 57 32 56 Q24 56 20 60 Z" fill="#B6AFA3"/>
+                <path d="M17 56 q5 4.5 10 0 M35 56 q5 4.5 10 0" stroke="#4A5A43" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                <path d="M28 62 h7 l-3.5 3.4 Z" fill="#7E857F"/>
+                <path d="M31.5 65 q0 3 -4 3.6 q-2.5 .3 -3.5 -1.8 M31.5 65 q0 3 4 3.6 q2.5 .3 3.5 -1.8" stroke="#5c5850" stroke-width="1.2" fill="none" stroke-linecap="round" opacity=".75"/>
+                <path d="M25 63 q-13 -2 -20 -5 M25 66 q-13 0 -20 -1 M25 69 q-12 3 -18 5" stroke="#BDB6AB" stroke-width="1" fill="none" stroke-linecap="round" opacity=".7"/>
+              </g>
             </g>
           </svg>
         </div>
+
+        <!-- 🍂 garden gate: draggable leaves + reveal. Drag the clay leaf into the birdbath. -->
+        <div class="gleaf " style="left:22%;top:69%;width:26px"><svg viewBox="0 0 100 150" width="26" aria-hidden="true"><path d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z" fill="#8AA07B"/><path d="M50 118 L50 149" stroke="#3E5E4A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M50 16 L50 120" stroke="#3E5E4A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke="#3E5E4A" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="gleaf " style="left:40%;top:82%;width:26px"><svg viewBox="0 0 100 150" width="26" aria-hidden="true"><path d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z" fill="#7E9170"/><path d="M50 118 L50 149" stroke="#3E5E4A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M50 16 L50 120" stroke="#3E5E4A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke="#3E5E4A" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="gleaf key" style="left:52%;top:87%;width:26px"><svg viewBox="0 0 100 150" width="26" aria-hidden="true"><path d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z" fill="var(--clay)"/><path d="M50 118 L50 149" stroke="var(--clay-deep)" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M50 16 L50 120" stroke="var(--clay-deep)" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke="var(--clay-deep)" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="gleaf " style="left:65%;top:77%;width:26px"><svg viewBox="0 0 100 150" width="26" aria-hidden="true"><path d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z" fill="#8AA07B"/><path d="M50 118 L50 149" stroke="#3E5E4A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M50 16 L50 120" stroke="#3E5E4A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke="#3E5E4A" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="gleaf " style="left:47%;top:64%;width:26px"><svg viewBox="0 0 100 150" width="26" aria-hidden="true"><path d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z" fill="#7E9170"/><path d="M50 118 L50 149" stroke="#3E5E4A" stroke-width="3.4" fill="none" stroke-linecap="round"/><path d="M50 16 L50 120" stroke="#3E5E4A" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke="#3E5E4A" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="ggate" id="ggate">
+          <a id="ggate-link" href="#" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 13c-4 0-6-3-6-3s4-2 6 1c2-3 6-1 6-1s-2 3-6 3z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="6" r="2.4" stroke="currentColor" stroke-width="2"/></svg>enter the garden</a>
+        </div>
+        <!-- /🍂 garden gate -->
       </div>
       <p class="kitten-names">Shake &amp; Nikke, keeping the shade warm</p>
     </section>
@@ -838,6 +893,144 @@
       btns.forEach(function (b) {
         b.addEventListener('click', function () { show(b.getAttribute('data-lang')); });
       });
+    })();
+
+    // 🍂 garden gate — drag the clay leaf into the birdbath to reveal the hidden path.
+    (function(){
+      var DIARY_FILE = "shade.html";
+      var HINT_SWAY  = true;   // gentle sway on the key leaf so it's findable; set false to hide
+
+      var scene = document.querySelector('.scene');
+      if(!scene) return;
+      var bath  = scene.querySelector('.birdbath');
+      var gate  = document.getElementById('ggate');
+      var link  = document.getElementById('ggate-link');
+      var key   = scene.querySelector('.gleaf.key');
+      if(!HINT_SWAY && key) key.classList.remove('key');
+
+      function targetRect(){            /* the birdbath water: 50% across, ~26% down */
+        var r = bath.getBoundingClientRect();
+        var cx = r.left + r.width*0.5, cy = r.top + r.height*0.26;
+        var w = r.width*0.5, h = r.height*0.30;
+        return {left:cx-w/2, right:cx+w/2, top:cy-h/2, bottom:cy+h/2};
+      }
+      function overlap(a,b){ return !(a.right<b.left||a.left>b.right||a.bottom<b.top||a.top>b.bottom); }
+
+      function reveal(leaf){
+        var sr = scene.getBoundingClientRect(), tr = targetRect();
+        leaf.classList.add('settle'); leaf.classList.remove('key');
+        leaf.style.left = ((tr.left+tr.right)/2 - sr.left) + 'px';
+        leaf.style.top  = ((tr.top+tr.bottom)/2 - sr.top) + 'px';
+        leaf.style.transform = 'translate(-50%,-50%) rotate(18deg) scale(.62)';
+        setTimeout(function(){ leaf.style.opacity = '0'; }, 360);
+        var rip = scene.querySelector('.birdbath .ripple');
+        if(rip){ rip.style.transition='transform .6s ease-out'; rip.style.transformOrigin='center';
+                 rip.style.transform='scale(1.5)'; setTimeout(function(){rip.style.transform='';},650); }
+        link.setAttribute('href', DIARY_FILE);
+        setTimeout(function(){ gate.classList.add('show'); }, 600);
+        try{ sessionStorage.setItem('niwa_gate','1'); }catch(e){}
+      }
+
+      function drag(el){
+        var on=false, sx, sy, bx, by;
+        el.addEventListener('pointerdown', function(e){
+          on=true; el.setPointerCapture(e.pointerId);
+          el.classList.add('dragging'); el.classList.remove('key');
+          var r=el.getBoundingClientRect(), s=scene.getBoundingClientRect();
+          bx=r.left-s.left; by=r.top-s.top; sx=e.clientX; sy=e.clientY;
+          el.style.left=bx+'px'; el.style.top=by+'px'; el.style.transform='none';
+          e.preventDefault();
+        });
+        el.addEventListener('pointermove', function(e){
+          if(!on) return;
+          el.style.left=(bx+e.clientX-sx)+'px'; el.style.top=(by+e.clientY-sy)+'px';
+        });
+        function end(){
+          if(!on) return; on=false; el.classList.remove('dragging');
+          if(overlap(el.getBoundingClientRect(), targetRect())){
+            if(el==key){ reveal(el); return; }
+            el.animate([{transform:'translateX(0)'},{transform:'translateX(-4px)'},{transform:'translateX(0)'}],{duration:280});
+          }
+        }
+        el.addEventListener('pointerup', end);
+        el.addEventListener('pointercancel', end);
+      }
+      scene.querySelectorAll('.gleaf').forEach(drag);
+
+      /* if the path was already found this visit, keep it open */
+      try{ if(sessionStorage.getItem('niwa_gate')=='1'){ link.setAttribute('href',DIARY_FILE); gate.classList.add('show'); } }catch(e){}
+    })();
+
+    // Leaves: fuller canopy + a gathered pile in the corners, freshly scattered each visit.
+    (function(){
+      var LEAF='<svg viewBox="0 0 100 150"><path class="blade" d="M50 8 C73 30 86 58 82 88 C79 110 65 122 50 126 C35 122 21 110 18 88 C14 58 27 30 50 8 Z"/><path class="vein" d="M50 118 L50 149" stroke-width="3.2"/><path class="vein" d="M50 16 L50 120" stroke-width="2.4"/><path class="vein" d="M50 104 L31 92 M50 104 L69 92 M50 86 L34 74 M50 86 L66 74 M50 66 L37 56 M50 66 L63 56 M50 48 L40 41 M50 48 L60 41" stroke-width="1.7"/></svg>';
+      var greens=[['#6E9B57','#2F5A46'],['#7E9170','#3E5E4A'],['#8AA07B','#3E5E4A'],['#93A684','#46614C'],['#6f8f4a','#2F5A46']];
+      var warms=[['#C58A6E','#8a5a44'],['#E5C079','#a98636'],['#B0775B','#6d4630']];
+      function rnd(a,b){return a+Math.random()*(b-a);}
+      function pick(a){return a[Math.floor(Math.random()*a.length)];}
+      function spin(svg,base,spread){
+        var r=base+rnd(-spread,spread);
+        if(base===0&&Math.random()<0.5) r+=180;
+        svg.style.transform='rotate('+r.toFixed(0)+'deg)'+(Math.random()<0.5?' scaleX(-1)':'');
+      }
+
+      // canopy: re-angle the existing leaves, then add a dozen more
+      var canopy=document.querySelector('.canopy');
+      if(canopy){
+        canopy.querySelectorAll('.leaf svg').forEach(function(svg){ spin(svg,0,180); });
+        for(var i=0;i<12;i++){
+          var c=pick(greens), w=rnd(28,54).toFixed(0);
+          var s=document.createElement('span'); s.className='leaf';
+          s.style.left=rnd(-2,99).toFixed(1)+'%'; s.style.top=rnd(-26,22).toFixed(0)+'px';
+          s.style.setProperty('--blade',c[0]); s.style.setProperty('--vein',c[1]);
+          s.style.animationDuration=rnd(7,9.5).toFixed(1)+'s'; s.style.animationDelay=(-rnd(0,5)).toFixed(1)+'s';
+          s.innerHTML=LEAF.replace('<svg','<svg width="'+w+'"');
+          spin(s.firstChild,0,180);
+          canopy.appendChild(s);
+        }
+      }
+
+      // let a leaf be picked up and moved around
+      function drag(el,box){
+        var on=false,sx,sy,bx,by;
+        el.addEventListener('pointerdown',function(e){
+          on=true; el.setPointerCapture(e.pointerId);
+          el.classList.add('lift'); el.style.zIndex=100;
+          var r=el.getBoundingClientRect(), c=box.getBoundingClientRect();
+          bx=r.left-c.left; by=r.top-c.top;
+          el.style.left=bx+'px'; el.style.top=by+'px'; el.style.right='auto'; el.style.bottom='auto';
+          sx=e.clientX; sy=e.clientY; e.preventDefault();
+        });
+        el.addEventListener('pointermove',function(e){
+          if(!on) return;
+          el.style.left=(bx+e.clientX-sx)+'px'; el.style.top=(by+e.clientY-sy)+'px';
+        });
+        function end(){ if(!on) return; on=false; el.classList.remove('lift'); }
+        el.addEventListener('pointerup',end);
+        el.addEventListener('pointercancel',end);
+      }
+
+      // pile: fallen leaves lying flat (~90°) and overlapping in the bottom corners
+      var pile=document.querySelector('.leafpile');
+      if(pile){
+        pile.querySelectorAll('.pleaf svg').forEach(function(svg){ spin(svg,90,55); });
+        for(var j=0;j<18;j++){
+          var warm=Math.random()<0.4, c2=warm?pick(warms):pick(greens);
+          var w2=rnd(26,46).toFixed(0);
+          var d=document.createElement('span'); d.className='pleaf';
+          if(j%2){ d.style.right=rnd(0,27).toFixed(1)+'%'; } else { d.style.left=rnd(0,27).toFixed(1)+'%'; }
+          d.style.bottom=rnd(-8,30).toFixed(0)+'px';
+          d.style.setProperty('--blade',c2[0]); d.style.setProperty('--vein',c2[1]);
+          d.innerHTML=LEAF.replace('<svg','<svg width="'+w2+'"');
+          spin(d.firstChild,90,55);
+          pile.appendChild(d);
+        }
+        pile.querySelectorAll('.pleaf').forEach(function(el){ drag(el,pile); });
+      }
+
+      // the leaves around the birdbath: let them lie flat and scattered like the pile
+      var scene=document.querySelector('.scene');
+      if(scene){ scene.querySelectorAll('.gleaf svg').forEach(function(svg){ spin(svg,90,55); }); }
     })();
   </script>
 
