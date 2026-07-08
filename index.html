@@ -8,7 +8,7 @@
 <meta name="description" content="ณ 庭 — a quiet garden where I grow languages, words, pictures, and sound.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+Thai:wght@400;500&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --parchment:#F3EFE3;
@@ -143,19 +143,42 @@
     letter-spacing:.01em;
   }
 
-  /* ---- na + niwa etymology: a quiet, always-on gloss beneath the wordmark ---- */
-  .etym{
-    margin-top:.7rem;
-    font-size:clamp(.72rem,2vw,.8rem);
-    color:var(--sage);
-    letter-spacing:.015em;
-    line-height:1.5;
+  /* ---- na + niwa name gloss: a quiet, semi-transparent note on the name, with a language toggle ---- */
+  .namegloss{
+    margin-top:1rem;
+    max-width:34rem;margin-left:auto;margin-right:auto;
   }
-  .etym .th{font-family:'Noto Sans Thai',sans-serif;color:var(--clay-deep)}
-  .etym .jp{font-family:'Noto Sans JP',sans-serif;color:var(--sky)}
-  .etym i{font-style:italic}
-  .etym .sep{opacity:.55;margin:0 .18rem}
-  .etym .result{font-style:italic;color:var(--moss-soft)}
+  .ng-toggle{
+    display:inline-flex;flex-wrap:wrap;justify-content:center;gap:.1rem;
+    margin-bottom:.55rem;
+  }
+  .ng-lang{
+    font-family:'Outfit',sans-serif;
+    font-size:.72rem;letter-spacing:.04em;
+    color:var(--sage);opacity:.6;
+    background:none;border:none;cursor:pointer;
+    padding:.15rem .5rem;border-radius:999px;line-height:1;
+    transition:opacity .3s var(--ease), color .3s var(--ease), background .3s var(--ease);
+  }
+  .ng-lang:hover,.ng-lang:focus-visible{opacity:.95;outline:none}
+  .ng-lang.is-on{
+    color:var(--moss);opacity:1;font-weight:500;
+    background:rgba(147,166,132,.16);
+  }
+  .ng-lang.th{font-family:'Noto Sans Thai',sans-serif}
+  .ng-lang.ja{font-family:'Noto Sans JP',sans-serif}
+  .ng-lang.zh{font-family:'Noto Sans SC',sans-serif}
+  .ng-text{
+    font-size:clamp(.8rem,2.1vw,.9rem);
+    color:var(--moss-soft);opacity:.82;
+    letter-spacing:.012em;line-height:1.65;
+  }
+  .ng-text.lang-th{font-family:'Noto Sans Thai',sans-serif;line-height:1.9}
+  .ng-text.lang-ja{font-family:'Noto Sans JP',sans-serif;line-height:1.85}
+  .ng-text.lang-zh{font-family:'Noto Sans SC',sans-serif;line-height:1.85}
+  .ng-text .th{font-family:'Noto Sans Thai',sans-serif;color:var(--clay-deep);font-style:normal}
+  .ng-text .jp{font-family:'Noto Sans JP',sans-serif;color:var(--sky);font-style:normal}
+  .ng-text i{font-style:italic}
 
   /* ---- pinned paper notes: little papers left in the garden ---- */
   .notes{
@@ -374,6 +397,113 @@
   }
   .kitten-names{font-size:.8rem;color:var(--sage);letter-spacing:.06em;margin-top:.2rem}
 
+  /* ---- the visitors' book: notes left behind by those who wandered in ---- */
+  .guestbook{margin-top:clamp(1rem,3vw,1.5rem)}
+  .gb-intro{
+    text-align:center;max-width:34rem;margin:0 auto clamp(1.8rem,5vw,2.6rem);
+    font-family:'Lora',Georgia,serif;font-style:italic;
+    font-size:clamp(.9rem,2.4vw,1rem);color:var(--moss-soft);line-height:1.7;
+  }
+
+  /* left messages, arranged like little papers on a board */
+  .gb-notes{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:clamp(1.3rem,4vw,1.9rem);
+    margin-bottom:clamp(2.4rem,7vw,3.4rem);
+  }
+  .vnote{
+    position:relative;
+    background:#FBF7EA;
+    border:1px solid rgba(176,119,91,.16);
+    border-radius:6px;
+    padding:1.35rem 1.4rem 1.15rem;
+    box-shadow:0 12px 26px -16px rgba(40,52,38,.55), 0 2px 4px rgba(40,52,38,.07);
+  }
+  .vnote:nth-child(3n+1){transform:rotate(-1.1deg)}
+  .vnote:nth-child(3n+2){transform:rotate(.8deg)}
+  .vnote:nth-child(3n+3){transform:rotate(-.5deg)}
+  .vnote::before{
+    content:"";position:absolute;top:-8px;left:50%;
+    width:70px;height:18px;
+    transform:translateX(-50%) rotate(-2deg);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.18) 0 2px, transparent 2px 5px),
+      linear-gradient(180deg,#C9D8C0,#B3C7A8);
+    opacity:.85;border-radius:1px;
+  }
+  .vnote .vb-body{
+    font-family:'Lora',Georgia,serif;
+    font-size:.9rem;line-height:1.7;color:var(--moss);
+  }
+  .vnote .vb-meta{
+    margin-top:.75rem;display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;
+    font-family:'Lora',Georgia,serif;font-style:italic;font-size:.78rem;color:var(--sage);
+  }
+  .vnote .vb-name{color:var(--moss-soft)}
+  .gb-empty{
+    grid-column:1/-1;text-align:center;padding:1.5rem 0;
+    font-family:'Lora',Georgia,serif;font-style:italic;color:var(--sage);font-size:.9rem;
+  }
+  @media (max-width:480px){
+    .vnote:nth-child(n){transform:none}
+  }
+
+  /* ---- leave-a-note form ---- */
+  .gb-form-wrap{
+    max-width:34rem;margin:0 auto;
+    background:rgba(255,255,255,.42);
+    border:1px solid rgba(147,166,132,.32);
+    border-radius:20px;
+    padding:clamp(1.5rem,4vw,2rem);
+    backdrop-filter:blur(2px);
+  }
+  .gb-form-title{
+    font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--sage);text-align:center;margin-bottom:1.1rem;
+  }
+  .gb-field{margin-bottom:1rem}
+  .gb-field label{
+    display:block;font-size:.74rem;font-weight:500;letter-spacing:.04em;
+    color:var(--moss-soft);margin-bottom:.4rem;
+  }
+  .gb-field input,.gb-field textarea{
+    width:100%;font-family:'Lora',Georgia,serif;font-size:.92rem;color:var(--moss);
+    background:#FBF7EA;
+    border:1px solid rgba(147,166,132,.4);border-radius:10px;
+    padding:.7rem .85rem;line-height:1.6;
+    transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+  }
+  .gb-field input:focus,.gb-field textarea:focus{
+    outline:none;border-color:var(--sage);
+    box-shadow:0 0 0 3px rgba(147,166,132,.18);
+  }
+  .gb-field textarea{resize:vertical;min-height:5.5rem}
+  /* honeypot: hidden from people, catches bots */
+  .gb-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .gb-submit{
+    display:block;width:100%;cursor:pointer;
+    font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:#FBF7EA;
+    background:var(--moss);border:none;border-radius:10px;
+    padding:.8rem 1rem;margin-top:.4rem;
+    transition:transform .3s var(--ease), background .3s var(--ease);
+  }
+  .gb-submit:hover,.gb-submit:focus-visible{background:var(--moss-soft);transform:translateY(-2px);outline:none}
+  .gb-submit:disabled{opacity:.6;cursor:default;transform:none}
+  .gb-note{
+    margin-top:.9rem;text-align:center;font-size:.74rem;color:var(--sage);
+    font-style:italic;font-family:'Lora',Georgia,serif;
+  }
+  .gb-status{
+    margin-top:1rem;text-align:center;
+    font-family:'Lora',Georgia,serif;font-size:.92rem;line-height:1.6;
+    color:var(--moss-soft);display:none;
+  }
+  .gb-status.show{display:block}
+  .gb-status.ok{color:var(--leaf)}
+  .gb-status.err{color:var(--rose)}
+
   /* ---- footer ---- */
   footer{
     margin-top:3rem;text-align:center;
@@ -413,14 +543,15 @@
       <div class="mark"><span class="th">ณ</span> <span class="jp">庭</span></div>
       <div class="wordmark">naniwa<span class="dot">.</span>garden</div>
       <p class="tagline">a garden of things I'm growing</p>
-      <p class="tagline-th">สวนเล็ก ๆ ที่ค่อย ๆ ปลูกของที่รัก</p>
-      <p class="etym">
-        <span class="th">ณ</span> <i>na</i> · in
-        <span class="sep">+</span>
-        <span class="jp">庭</span> <i>niwa</i> · garden
-        <span class="sep">→</span>
-        <span class="result">in the garden</span>
-      </p>
+      <div class="namegloss">
+        <div class="ng-toggle" role="group" aria-label="Read the name's meaning in another language">
+          <button type="button" class="ng-lang en is-on" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="ng-lang th" data-lang="th" aria-pressed="false">ไทย</button>
+          <button type="button" class="ng-lang ja" data-lang="ja" aria-pressed="false">日本語</button>
+          <button type="button" class="ng-lang zh" data-lang="zh" aria-pressed="false">中文</button>
+        </div>
+        <p class="ng-text" id="ngText" lang="en"><span class="th">ณ</span> <i>na</i> is a formal Thai preposition — “at,” “in,” “on.” <span class="jp">庭</span> <i>niwa</i> is the Japanese word for a garden. Together they make this place: a little garden to linger in slowly, surrounded by the things I’m growing with love.</p>
+      </div>
     </header>
 
     <section class="notes" aria-label="Notes from the gardener">
@@ -579,10 +710,136 @@
       <p class="kitten-names">Shake &amp; Nikke, keeping the shade warm</p>
     </section>
 
+    <div class="beds-label">the visitors' book</div>
+
+    <section class="guestbook" aria-label="Visitors' book">
+      <p class="gb-intro">If something here made you pause, leave a few words. I read every note, and the ones that find their way onto the board are pinned up by hand.</p>
+
+      <!-- ════════════════════ VISITORS' BOOK · approved notes ════════════════════
+           Approved visitor messages live here as <article class="vnote"> blocks,
+           NEWEST ON TOP. When a note arrives in the gardener's inbox and gets the
+           nod, add it in this exact shape:
+
+             <article class="vnote">
+               <p class="vb-body">their message, trimmed and tidied</p>
+               <div class="vb-meta"><span class="vb-name">— name</span><span class="vb-date">DD Mon YYYY</span></div>
+             </article>
+
+           Leave the name blank as "— a visitor" if they didn't give one.
+           When the first real note goes up, delete the .gb-empty placeholder below.
+           ═══════════════════════════════════════════════════════════════════════════ -->
+      <div class="gb-notes" id="gbNotes">
+        <p class="gb-empty">No notes pinned up yet — yours could be the first.</p>
+      </div>
+
+      <!-- ─────────────────────────────────────────────────────────────────────────
+           Connected to Formspree endpoint xdarvdry (form action below). Formspree
+           emails every submission to the gardener; nothing appears on the page until
+           it's pinned up by hand (see the block above). Free tier: 50 messages/month.
+           ───────────────────────────────────────────────────────────────────────── -->
+      <div class="gb-form-wrap">
+        <div class="gb-form-title">a message to the gardener</div>
+        <form id="gbForm" action="https://formspree.io/f/xdarvdry" method="POST">
+          <div class="gb-field">
+            <label for="gb-name">Your name <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+            <input type="text" id="gb-name" name="name" maxlength="60" autocomplete="name" placeholder="a traveller, a friend, anyone">
+          </div>
+          <div class="gb-field">
+            <label for="gb-message">Your note</label>
+            <textarea id="gb-message" name="message" maxlength="600" required placeholder="a few words for the garden…"></textarea>
+          </div>
+          <!-- honeypot: real people never fill this in; bots do -->
+          <div class="gb-hp" aria-hidden="true">
+            <label for="gb-website">Leave this field empty</label>
+            <input type="text" id="gb-website" name="_gotcha" tabindex="-1" autocomplete="off">
+          </div>
+          <input type="hidden" name="_subject" value="🌿 A new note in the naniwa.garden visitors' book">
+          <button type="submit" class="gb-submit">pin it up</button>
+          <p class="gb-note">Notes are read by the gardener before they appear.</p>
+          <p class="gb-status" id="gbStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
     <footer>
       naniwa.garden <span class="sep">·</span> ณ 庭 <span class="sep">·</span> grown in Bangkok
     </footer>
   </main>
+
+  <script>
+    // Submit the visitors' book note without leaving the page, so we can show a
+    // gentle "waiting for the gardener" message instead of Formspree's own page.
+    (function () {
+      var form = document.getElementById('gbForm');
+      if (!form) return;
+      var statusEl = document.getElementById('gbStatus');
+      var btn = form.querySelector('.gb-submit');
+
+      function say(msg, kind) {
+        statusEl.textContent = msg;
+        statusEl.className = 'gb-status show ' + (kind || '');
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        // honeypot tripped — quietly pretend all is well
+        if (form.querySelector('[name="_gotcha"]').value) {
+          say('Thank you — your note is on its way to the gardener.', 'ok');
+          form.reset();
+          return;
+        }
+        if (form.action.indexOf('YOUR_FORM_ID') !== -1) {
+          say('The guestbook isn’t connected yet. (Add your Formspree endpoint to go live.)', 'err');
+          return;
+        }
+        btn.disabled = true;
+        say('Sending…');
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        }).then(function (r) {
+          if (r.ok) {
+            form.reset();
+            say('Thank you — your note is waiting for the gardener. If it takes root, you’ll see it pinned up here soon.', 'ok');
+          } else {
+            say('Something went astray. Please try again in a little while.', 'err');
+          }
+        }).catch(function () {
+          say('Something went astray. Please try again in a little while.', 'err');
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+    })();
+
+    // Language toggle for the name gloss — English by default, quietly switchable.
+    (function () {
+      var text = document.getElementById('ngText');
+      if (!text) return;
+      var na = '<span class="th">ณ</span>', niwa = '<span class="jp">庭</span>';
+      var glosses = {
+        en: na + ' <i>na</i> is a formal Thai preposition — “at,” “in,” “on.” ' + niwa + ' <i>niwa</i> is the Japanese word for a garden. Together they make this place: a little garden to linger in slowly, surrounded by the things I’m growing with love.',
+        th: na + ' เป็นคำบุพบทในภาษาไทย หมายถึง “ที่” หรือ “ใน” ส่วน ' + niwa + ' ในภาษาญี่ปุ่นแปลว่า “สวน” สองคำนี้รวมกันเป็นชื่อของสวนเล็ก ๆ แห่งนี้ — ที่ซึ่งเราได้ใช้เวลาช้า ๆ ท่ามกลางสิ่งที่ฉันค่อย ๆ ปลูกด้วยความรัก',
+        ja: na + '（na）は「〜に・〜で」を表すタイ語の前置詞、' + niwa + '（niwa）は日本語で「庭」のこと。ふたつ合わせて、この小さな庭 — 私が愛を込めて少しずつ育てているものに囲まれ、ゆっくり過ごせる場所を表しています。',
+        zh: na + '（na）是泰语的介词，意为「在」；' + niwa + '（niwa）在日语中意为「庭园」。两者相合，便是这座小小的庭园 —— 一个可以慢慢停留、被我用心栽种之物环绕的地方。'
+      };
+      var btns = document.querySelectorAll('.ng-lang');
+      function show(lang) {
+        text.innerHTML = glosses[lang] || glosses.en;
+        text.className = 'ng-text' + (lang === 'en' ? '' : ' lang-' + lang);
+        text.setAttribute('lang', lang === 'zh' ? 'zh-Hans' : lang);
+        btns.forEach(function (b) {
+          var on = b.getAttribute('data-lang') === lang;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () { show(b.getAttribute('data-lang')); });
+      });
+    })();
+  </script>
 
 </body>
 </html>
